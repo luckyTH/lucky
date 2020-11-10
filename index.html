@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>幸运抽奖～</title>
+  <meta name="description" content="抽队友～" />
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"> -->
+</head>
+
+<style type="text/css">
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  #btn {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%);
+    width: 30rem;
+    height: 5rem;
+    line-height: 5rem;
+    font-size: 3rem;
+    border: 1px solid #ffd70d;
+    border-radius: 50px;
+    text-align: center;
+    color: #ffd70d;
+    cursor: pointer;
+    user-select: none;
+    z-index: 99999;
+    background-color: #fff;
+  }
+
+  #view {
+    position: fixed;
+    left: 50%;
+    top: 70%;
+    transform: translate(-50%);
+    font-size: 2rem;
+    color: #000;
+    white-space: nowrap;
+  }
+
+  .eat {
+    position: fixed;
+    font-size: 40px;
+    white-space: nowrap;
+    transition: all 0.3s;
+  }
+</style>
+
+<body>
+  <div id="box">
+    <div id="btn">看看队友是谁</div>
+    <div id="view"></div>
+  </div>
+</body>
+<script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    var isClick = true;
+    var dataList = []
+
+    function chekingData() {
+      if (dataList.length == 0) {
+        dataList = `1. 陈宝龙
+          2. 曲凯
+          3. 齐锐
+          4. 傅兴波
+          5. 合金+
+          6. 王德龙
+          7. YDS
+          8. 李丹丹
+          9. 姜福东
+          10. 王淼
+          11. 张崇阳
+          12. 尚金国
+          13. 王瀛洲
+          14. 陈健龙
+          15. 曹立权
+          16. 张健
+          17. 孙岩
+          18. 兰泽兴
+          19. 王昌杰
+          20. 唐奉明
+          21. 李庆国
+          22. 张唤
+          23. 王海夫
+          24. 张春雨
+          25. 武龙
+          26. 彭伟城
+          27. 孙立柱
+          28. 孟宪军
+          29. 卢明富
+          30. 我是一只鱼
+          31. 李海瑞
+          32. 何冰松
+          33. 孙国良
+          34. 和锦海
+          35. 张书赫
+          36. 王亚丽
+          37. 张岐`
+          .replace(/[\ ]/g, "").toString().split('\n')
+      }
+      return dataList
+    }
+
+    $('#btn').click(function () {
+
+      chekingData()
+
+      if (isClick) {
+
+        time = setInterval(function () {
+
+          var random = Math.floor(Math.random() * dataList.length)
+          var rc = Math.round(Math.random() * 255)
+          var rc2 = Math.round(Math.random() * 255)
+          var rc3 = Math.round(Math.random() * 255)
+
+          $(`<span class='eat'>${dataList[random]}</span>`).css({
+            'top': Math.round(Math.random() * $(document).height()) + 'px',
+            'right': Math.round(Math.random() * $(document).width()) + 'px',
+            'font-size': Math.round(Math.random() * 40 + 12),
+            'color': `rgba(${rc},${rc2},${rc3},${Math.random()})`
+          }).appendTo('#box').fadeIn('slow', function () {
+            $(this).fadeOut('slow', function () {
+              $(this).remove()
+            })
+          })
+          $('#view').html(`${dataList[random]}`)
+
+        }, 50)
+
+        isClick = false
+        $('#btn').html('停止')
+      } else {
+        clearInterval(time)
+        $('#btn').html('再选一次队友~')
+
+        isClick = true
+      }
+
+    })
+  })
+
+</script>
+
+</html>
