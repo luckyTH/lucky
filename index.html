@@ -49,12 +49,24 @@
     white-space: nowrap;
     transition: all 0.3s;
   }
+
+  #pick {
+    position: fixed;
+    left: 0%;
+    top: 0%;
+    font-size: 1rem;
+    color: #000;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: auto;
+  }
 </style>
 
 <body>
   <div id="box">
     <div id="btn">看看队友是谁</div>
     <div id="view"></div>
+    <div id="pick"></div>
   </div>
 </body>
 <script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
@@ -63,10 +75,12 @@
   $(document).ready(function () {
     var isClick = true;
     var dataList = []
+    var pickList = []
+    var pick = ''
+    var num = 0
 
     function chekingData() {
-      if (dataList.length == 0) {
-        dataList = `1. 陈宝龙
+      dataList = `1. 陈宝龙
           2. 曲凯
           3. 齐锐
           4. 傅兴波
@@ -103,15 +117,13 @@
           35. 张书赫
           36. 王亚丽
           37. 张岐`
-          .replace(/[\ ]/g, "").toString().split('\n')
-      }
+        .replace(/[\ ]/g, "").toString().split('\n')
       return dataList
     }
 
     $('#btn').click(function () {
 
       chekingData()
-
       if (isClick) {
 
         time = setInterval(function () {
@@ -132,15 +144,29 @@
             })
           })
           $('#view').html(`${dataList[random]}`)
-
+          pick = dataList[random]
         }, 50)
 
         isClick = false
         $('#btn').html('停止')
       } else {
-        clearInterval(time)
-        $('#btn').html('再选一次队友~')
+        dataList = dataList.filter(i => i != pick)
+        if (pickList[num] ?.length == 5) {
+          num += 1
+          pickList[num] = [pick]
+        } else if (!pickList[num]) {
+          pickList[num] = [pick]
+        } else {
+          pickList[num].push(pick)
+        }
+        $('#pick').html(`${JSON.stringify(pickList, null, 2)}`)
 
+        clearInterval(time)
+        if(dataList.length==0){
+          $('#btn').html('队友以及分配完毕~')
+        }else{
+          $('#btn').html('再选一次队友~')
+        }
         isClick = true
       }
 
