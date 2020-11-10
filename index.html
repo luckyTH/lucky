@@ -125,9 +125,7 @@
     $('#btn').click(function () {
 
       if (isClick) {
-
         time = setInterval(function () {
-
           var random = Math.floor(Math.random() * dataList.length)
           var rc = Math.round(Math.random() * 255)
           var rc2 = Math.round(Math.random() * 255)
@@ -153,8 +151,8 @@
         dataList = dataList.filter(i => i != pick)
         if (pickList[num] ?.length == 5) {
           num += 1
-          pickList[num] = [pick]
-        } else if (!pickList[num]) {
+        }
+        if (!pickList[num]) {
           pickList[num] = [pick]
         } else {
           pickList[num].push(pick)
@@ -166,8 +164,8 @@
           $('#btn').html('队友以及分配完毕~')
         }else{
           $('#btn').html('再选一次队友~')
+          isClick = true
         }
-        isClick = true
       }
 
     })
